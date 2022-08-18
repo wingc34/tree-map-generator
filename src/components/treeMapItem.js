@@ -14,9 +14,10 @@ const STreeMapItemContent = styled.div`
   word-break: break-all;
 `;
 
-function TreeMapItem({calWeight, percent, itemName}) {
+function TreeMapItem({ calWeight, percent, itemName }) {
   return (
     <STreeMapItem
+      data-testid="tree-map-item"
       calWeight={calWeight}
       isGreen={percent > 0}
     >

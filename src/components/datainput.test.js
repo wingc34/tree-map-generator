@@ -1,5 +1,5 @@
 import React from "react";
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 import userEvent from "@testing-library/user-event";
 import DataInput from "./datainput";
@@ -8,32 +8,56 @@ describe("Testing Row Input Functionality", () => {
   test("render Row input", () => {
     render(<DataInput />);
 
-    const inputEl = screen.getByTitle("row-input");
+    const inputEl = screen.getByTestId("row-input");
     expect(inputEl).toBeInTheDocument();
     expect(inputEl).toHaveAttribute("type", "number");
   });
 
-  test('pass valid number to Row input', () => {
-    const mockFunc = jest.fn();
-    const number = 5;
-    render(<DataInput rowNum={number} onRowNumChange={mockFunc} />);
- 
-    const inputEl = screen.getByTitle("row-input");
+  test("change number to Row input", () => {
+    render(<DataInput />);
+
+    const inputEl = screen.getByTestId("row-input");
+    fireEvent.change(inputEl, { target: { value: 2 } });
     expect(inputEl).toBeInTheDocument();
- 
-    expect(screen.getByTitle("row-input")).toHaveValue(number);
-  });
-  test('pass string to Row input', () => {
-    const mockFunc = jest.fn();
-    const string = 'qq';
-    render(<DataInput rowNum={string} onRowNumChange={mockFunc} />);
- 
-    const inputEl = screen.getByTitle("row-input");
-    expect(inputEl).toBeInTheDocument();
- 
-    expect(screen.getByTitle("row-input")).not.toHaveValue(string);
+    expect(inputEl).toHaveValue(2);
   });
 
+  test("not allow not number value to Row input", () => {
+    render(<DataInput />);
+
+    const inputEl = screen.getByTestId("row-input");
+    fireEvent.change(inputEl, { target: { value: "qwe" } });
+    expect(inputEl).toBeInTheDocument();
+    expect(inputEl).not.toHaveValue("qwe");
+  });
+});
+
+describe("Testing JSON Input Functionality", () => {
+  test("render JSON input", () => {
+    render(<DataInput />);
+
+    const inputEl = screen.getByTestId("json-input");
+    expect(inputEl).toBeInTheDocument();
+  });
+
+  test("type in JSON input", () => {
+    const arr = [
+      { name: "A", weight: 3, value: -0.02 },
+      { name: "B", weight: 3, value: 0.05 },
+      { name: "C", weight: 6, value: 0.015 },
+      { name: "D", weight: 2, value: -0.01 },
+      { name: "E", weight: 3, value: 0.01 },
+    ];
+    const expectResult = JSON.stringify(arr);
+    render(<DataInput />);
+
+    const inputEl = screen.getByTestId("json-input");
+
+    userEvent.type(inputEl, expectResult);
+
+    expect(inputEl).toBeInTheDocument();
+    expect(inputEl).toHaveValue(expectResult);
+  });
 });
 
 describe("Testing Button Functionality", () => {

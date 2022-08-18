@@ -54,11 +54,11 @@ const DataInput = ({
     <SDataInputContainer>
       <SJsonInputContainer>
         <SJsonInputTitle>Please enter your Data Json: </SJsonInputTitle>
-        <SJsonInput rows="30" cols="40" value={json} onChange={onJsonChange} />
+        <SJsonInput data-testid="json-input" rows="30" cols="40" value={json} onChange={onJsonChange} />
       </SJsonInputContainer>
       <SRowInputContainer>
         <SRowInputTitle>Please enter row number: </SRowInputTitle>
-        <SRowInput title="row-input" value={rowNum} onChange={onRowNumChange} type="number" min="1" max="50" />
+        <SRowInput data-testid="row-input" value={rowNum} onChange={onRowNumChange} type="number" min="1" />
       </SRowInputContainer>
       <SGenarateBtn onClick={onButtonClick}>Generate Tree Map</SGenarateBtn>
       <SPrettifyBtn onClick={onPrettifyJsonClick}>Prettify Json</SPrettifyBtn>
